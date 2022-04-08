@@ -1,6 +1,15 @@
-import { nanoid } from "nanoid/non-secure";
 import { useEffect, useState } from "react";
+
+import Button from "@mui/material/Button";
+import Container from "@mui/material/Container";
+import List from "@mui/material/List";
+import ListItem from "@mui/material/ListItem";
+import ListItemSecondaryAction from "@mui/material/ListItemSecondaryAction";
+import ListItemText from "@mui/material/ListItemText";
+import { nanoid } from "nanoid/non-secure";
 import store from "store2";
+import { IconButton } from "@mui/material";
+import ClearIcon from "@mui/icons-material/Clear";
 
 type Clock = {
   id: string;
@@ -43,19 +52,29 @@ const App = () => {
   }, [clocks]);
 
   return (
-    <div>
-      <ul style={{ display: "flex", gap: "1rem", flexDirection: "column" }}>
+    <Container>
+      <Button variant="contained" onClick={onClick}>
+        출근
+      </Button>
+      <List sx={{ width: "100%", maxWidth: 360, bgcolor: "background.paper" }}>
         {clocks.map((clock) => (
-          <div style={{ display: "flex", alignItems: "center", gap: "1rem" }}>
-            <li key={clock.id}>{parseDatetime(clock.time)}</li>
-            <button type="button" onClick={() => removeClock(clock.id)}>
-              ❌
-            </button>
-          </div>
+          <ListItem
+            key={clock.id}
+            secondaryAction={
+              <IconButton
+                edge="end"
+                aria-label="delete"
+                onClick={() => removeClock(clock.id)}
+              >
+                <ClearIcon />
+              </IconButton>
+            }
+          >
+            <ListItemText primary={parseDatetime(clock.time)} />
+          </ListItem>
         ))}
-      </ul>
-      <button onClick={onClick}>출근</button>
-    </div>
+      </List>
+    </Container>
   );
 };
 
