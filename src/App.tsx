@@ -47,7 +47,7 @@ const App = () => {
     <Container
       maxWidth="xs"
       sx={(theme) => ({
-        padding: theme.spacing(1, 0),
+        padding: theme.spacing(1),
       })}
     >
       <Box
