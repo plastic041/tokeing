@@ -1,35 +1,27 @@
+import {
+  addHour,
+  getClocks,
+  isDateSame,
+  parseDatePrimary,
+  parseDateSecondary,
+} from "./utils/date";
 import { useEffect, useState } from "react";
 
+import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
+import ClearIcon from "@mui/icons-material/Clear";
+import type { Clock } from "./typings/clock";
 import Container from "@mui/material/Container";
+import IconButton from "@mui/material/IconButton";
 import List from "@mui/material/List";
 import ListItem from "@mui/material/ListItem";
-import ListItemSecondaryAction from "@mui/material/ListItemSecondaryAction";
 import ListItemText from "@mui/material/ListItemText";
+import Paper from "@mui/material/Paper";
 import { nanoid } from "nanoid/non-secure";
 import store from "store2";
-import { IconButton } from "@mui/material";
-import ClearIcon from "@mui/icons-material/Clear";
 
-type Clock = {
-  id: string;
-  time: string;
-};
-
-const getClocks = () => {
-  const clocks: Clock[] = JSON.parse(store.get("clocks") || "[]");
-  return clocks;
-};
-
-const parseDatetime = (dateString: string) => {
-  // parse Date to MM월 DD일 HH시 mm분
-  const date = new Date(dateString);
-  const month = date.getMonth() + 1;
-  const day = date.getDate();
-  const hour = date.getHours();
-  const minute = date.getMinutes();
-  return `${month}월 ${day}일: ${hour}시 ${minute}분`;
-};
+const TODAY = new Date();
+const WORK_HOUR = 9;
 
 const App = () => {
   const [clocks, setClocks] = useState<Clock[]>(getClocks());
@@ -42,7 +34,7 @@ const App = () => {
       ...clocks,
       {
         id: nanoid(),
-        time: new Date().toString(),
+        date: new Date().toString(),
       },
     ]);
   };
@@ -52,28 +44,71 @@ const App = () => {
   }, [clocks]);
 
   return (
-    <Container>
-      <Button variant="contained" onClick={onClick}>
-        출근
-      </Button>
-      <List sx={{ width: "100%", maxWidth: 360, bgcolor: "background.paper" }}>
-        {clocks.map((clock) => (
-          <ListItem
-            key={clock.id}
-            secondaryAction={
-              <IconButton
-                edge="end"
-                aria-label="delete"
-                onClick={() => removeClock(clock.id)}
-              >
-                <ClearIcon />
-              </IconButton>
-            }
-          >
-            <ListItemText primary={parseDatetime(clock.time)} />
-          </ListItem>
-        ))}
-      </List>
+    <Container
+      maxWidth="xs"
+      sx={(theme) => ({
+        padding: theme.spacing(1, 0),
+      })}
+    >
+      <Box
+        sx={(theme) => ({
+          display: "flex",
+          flexDirection: "column",
+          gap: theme.spacing(1),
+        })}
+      >
+        <Button
+          variant="contained"
+          onClick={onClick}
+          sx={{ width: "100%" }}
+          size="large"
+        >
+          출근
+        </Button>
+        {clocks.length !== 0 && (
+          <Paper sx={{ overflow: "hidden" }}>
+            <List
+              sx={(theme) => ({
+                width: "100%",
+                bgcolor: theme.palette.background.paper,
+              })}
+            >
+              {clocks.map((clock) => {
+                const clockDate = new Date(clock.date);
+                return (
+                  <ListItem
+                    key={clock.id}
+                    secondaryAction={
+                      <IconButton
+                        edge="end"
+                        aria-label="delete"
+                        onClick={() => removeClock(clock.id)}
+                      >
+                        <ClearIcon />
+                      </IconButton>
+                    }
+                  >
+                    <ListItemText
+                      primary={parseDatePrimary(clockDate)}
+                      primaryTypographyProps={{
+                        fontWeight: isDateSame(TODAY, clockDate)
+                          ? "fontWeightBold"
+                          : "fontWeightRegular",
+                      }}
+                      secondary={
+                        isDateSame(TODAY, clockDate) &&
+                        `+${WORK_HOUR}:00 ${parseDateSecondary(
+                          addHour(clockDate, WORK_HOUR)
+                        )}`
+                      }
+                    />
+                  </ListItem>
+                );
+              })}
+            </List>
+          </Paper>
+        )}
+      </Box>
     </Container>
   );
 };
