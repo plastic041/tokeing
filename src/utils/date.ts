@@ -28,8 +28,8 @@ export const isDateSame = (dateA: Date, dateB: Date) => {
   );
 };
 
-export const addHour = (date: Date, hour: number) => {
+export const addHour = (date: Date, hour: number, minute: number) => {
   // use dayjs
-  const newDate = dayjs(date).add(hour, "hour");
+  const newDate = dayjs(date).add(hour, "hour").add(minute, "minute");
   return newDate.toDate();
 };
