@@ -1,12 +1,12 @@
-import App from "./App";
 import { createRoot } from "react-dom/client";
-import { MantineProvider } from "@mantine/core";
+import App from "./app";
 
-const rootElement = document.getElementById("root");
+const rootElement = document.querySelector("#root");
 
 if (!rootElement) {
   throw new Error("Failed to find the root element");
 }
+
 const root = createRoot(rootElement);
 
 root.render(<App />);

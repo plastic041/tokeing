@@ -4,15 +4,16 @@ import {
   ColorScheme,
   Global,
 } from "@mantine/core";
-import Body from "./components/Body";
 import { useAtom } from "jotai";
-import { colorSchemeAtom } from "./stores/colorScheme";
+import Body from "./components/body";
+import { colorSchemeAtom } from "./stores/color-scheme";
 
 const App = () => {
   const [colorScheme, setColorScheme] = useAtom(colorSchemeAtom);
 
-  const toggleColorScheme = (value?: ColorScheme) =>
+  const toggleColorScheme = (value?: ColorScheme) => {
     setColorScheme(value || (colorScheme === "dark" ? "light" : "dark"));
+  };
 
   return (
     <ColorSchemeProvider
