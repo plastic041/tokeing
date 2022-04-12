@@ -1,7 +1,7 @@
 import { Drawer, Stack } from "@mantine/core";
 
 import DarkModeSection from "./Drawer/dark-mode-section";
-import WorkTimeSection from "./Drawer/work-time-section";
+import WorkTimeSection from "./drawer/work-time-section";
 import { isDrawerOpenedAtom } from "../stores/drawer";
 import { useAtom } from "jotai";
 
