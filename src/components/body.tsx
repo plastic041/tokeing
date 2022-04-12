@@ -13,12 +13,14 @@ const Body = () => {
   return (
     <>
       <DrawerWrapper />
-      <Container size="xs" p="xs">
+      <Container size="xs" p="xs" sx={{ height: "100vh" }}>
         <Box
           sx={(theme) => ({
             display: "flex",
             flexDirection: "column",
             gap: theme.spacing.xs,
+            flexGrow: 1,
+            height: "100%",
           })}
         >
           <Group spacing="xs">

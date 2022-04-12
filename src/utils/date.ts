@@ -13,10 +13,10 @@ export const parseDateSecondary = (date: Date) => {
   return parsedDate;
 };
 
-export const isDateSame = (dateA: Date, dateB: Date) =>
-  dateA.getFullYear() === dateB.getFullYear() &&
-  dateA.getMonth() === dateB.getMonth() &&
-  dateA.getDate() === dateB.getDate();
+export const isDateSame = (dateA: Date, dateB: Date) => {
+  const isSame = dayjs(dateA).isSame(dateB, "day");
+  return isSame;
+};
 
 export const addTime = (date: Date, hour: number, minute: number) => {
   const newDate = dayjs(date).add(hour, "hour").add(minute, "minute");

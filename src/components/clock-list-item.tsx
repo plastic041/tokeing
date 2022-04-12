@@ -1,4 +1,4 @@
-import { ActionIcon, Box, Text, createStyles } from "@mantine/core";
+import { ActionIcon, Box, Text, createStyles, Transition } from "@mantine/core";
 import {
   addTime,
   isDateSame,
@@ -12,6 +12,7 @@ import { TODAY } from "../stores/date";
 import { clocksAtom } from "../stores/clocks";
 import { useAtom } from "jotai";
 import { workTimeAtom } from "../stores/work-time";
+import dayjs from "dayjs";
 
 const useStyles = createStyles(() => ({
   wrapper: {
@@ -34,14 +35,13 @@ const ClockListItem = ({ clock }: Props) => {
   const clockDate = new Date(clock.date);
 
   const [workTime] = useAtom(workTimeAtom);
-
   const [clocks, setClocks] = useAtom(clocksAtom);
+
+  const { classes } = useStyles();
 
   const removeClock = (id: string) => {
     setClocks(clocks.filter((clock) => clock.id !== id));
   };
-
-  const { classes } = useStyles();
 
   return (
     <Box className={classes.wrapper}>

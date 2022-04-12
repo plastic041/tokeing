@@ -1,4 +1,4 @@
-import { Box, Divider, Paper, createStyles } from "@mantine/core";
+import { Box, Divider, Paper, createStyles, ScrollArea } from "@mantine/core";
 
 import ClockListItem from "./clock-list-item";
 import { clocksAtom } from "../stores/clocks";
@@ -26,18 +26,18 @@ const ClockList = () => {
   const { classes } = useStyles();
 
   return (
-    <Paper className={classes.wrapper} shadow="xs" p="md" withBorder={dark}>
-      <Box className={classes.box}>
-        {clocks.map((clock, index) => (
-          <>
-            <ClockListItem key={clock.id} clock={clock} />
-            {index !== clocks.length - 1 && (
-              <Divider my="xs" variant="dotted" />
-            )}
-          </>
-        ))}
-      </Box>
-    </Paper>
+    <ScrollArea sx={{ flexGrow: 1 }}>
+      <Paper className={classes.wrapper} shadow="xs" p="md" withBorder={dark}>
+        <Box className={classes.box}>
+          {clocks.map((clock, index) => (
+            <>
+              <ClockListItem key={clock.id} clock={clock} />
+              {index !== clocks.length - 1 && <Divider my="xs" />}
+            </>
+          ))}
+        </Box>
+      </Paper>
+    </ScrollArea>
   );
 };
 
