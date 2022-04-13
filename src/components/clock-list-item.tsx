@@ -1,4 +1,13 @@
-import { ActionIcon, Box, Text, createStyles, Transition } from "@mantine/core";
+import {
+  ActionIcon,
+  Box,
+  Text,
+  createStyles,
+  Transition,
+  Group,
+  Modal,
+  NumberInput,
+} from "@mantine/core";
 import {
   addTime,
   isDateSame,
@@ -7,12 +16,15 @@ import {
 } from "../utils/date";
 
 import { Clock } from "../typings/clock";
-import { Cancel as IconCancel } from "iconoir-react";
+import {
+  Cancel as IconCancel,
+  EditPencil as IconEditPencil,
+} from "iconoir-react";
 import { TODAY } from "../stores/date";
 import { clocksAtom } from "../stores/clocks";
 import { useAtom } from "jotai";
 import { workTimeAtom } from "../stores/work-time";
-import dayjs from "dayjs";
+import { useState } from "react";
 
 const useStyles = createStyles(() => ({
   wrapper: {
@@ -32,6 +44,8 @@ type Props = {
 };
 
 const ClockListItem = ({ clock }: Props) => {
+  const [modalOpened, setModalOpened] = useState(false);
+
   const clockDate = new Date(clock.date);
 
   const [workTime] = useAtom(workTimeAtom);
@@ -42,6 +56,8 @@ const ClockListItem = ({ clock }: Props) => {
   const removeClock = (id: string) => {
     setClocks(clocks.filter((clock) => clock.id !== id));
   };
+
+  const editClock = (id: string) => {};
 
   return (
     <Box className={classes.wrapper}>
@@ -58,16 +74,32 @@ const ClockListItem = ({ clock }: Props) => {
           </Text>
         )}
       </Box>
-      <ActionIcon
-        size="xl"
-        radius="xl"
-        aria-label="delete"
-        onClick={() => {
-          removeClock(clock.id);
-        }}
-      >
-        <IconCancel />
-      </ActionIcon>
+      <Group>
+        <ActionIcon
+          size="xl"
+          radius="xl"
+          aria-label="edit"
+          onClick={() => setModalOpened(true)}
+        >
+          <IconEditPencil />
+        </ActionIcon>
+        <ActionIcon
+          size="xl"
+          radius="xl"
+          aria-label="delete"
+          onClick={() => {
+            removeClock(clock.id);
+          }}
+        >
+          <IconCancel />
+        </ActionIcon>
+      </Group>
+      <Modal opened={modalOpened} onClose={() => setModalOpened(false)}>
+        <Group noWrap>
+          <NumberInput label="시" />
+          <NumberInput label="분" />
+        </Group>
+      </Modal>
     </Box>
   );
 };
