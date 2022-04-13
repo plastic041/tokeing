@@ -6,7 +6,7 @@ type SectionProps = {
 };
 
 const Section = ({ title, children }: SectionProps) => (
-  <Stack spacing="xs">
+  <Stack spacing={2}>
     <Text size="sm" color="gray">
       {title}
     </Text>

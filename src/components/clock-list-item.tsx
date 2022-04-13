@@ -1,13 +1,8 @@
+import { ActionIcon, Box, Group, Text, createStyles } from "@mantine/core";
 import {
-  ActionIcon,
-  Box,
-  Text,
-  createStyles,
-  Transition,
-  Group,
-  Modal,
-  NumberInput,
-} from "@mantine/core";
+  Cancel as IconCancel,
+  EditPencil as IconEditPencil,
+} from "iconoir-react";
 import {
   addTime,
   isDateSame,
@@ -16,16 +11,13 @@ import {
 } from "../utils/date";
 
 import { Clock } from "../typings/clock";
-import {
-  Cancel as IconCancel,
-  EditPencil as IconEditPencil,
-} from "iconoir-react";
 import { TODAY } from "../stores/date";
 import { clocksAtom } from "../stores/clocks";
-import { useAtom } from "jotai";
-import { workTimeAtom } from "../stores/work-time";
-import { useState } from "react";
 import dayjs from "dayjs";
+import { useAtom } from "jotai";
+import { useState } from "react";
+import { workTimeAtom } from "../stores/work-time";
+import ClockListItemModal from "./clock-list-item-modal";
 
 const useStyles = createStyles(() => ({
   wrapper: {
@@ -49,17 +41,19 @@ const ClockListItem = ({ clock }: Props) => {
 
   const clockDate = new Date(clock.date);
 
+  const isToday = isDateSame(clockDate, TODAY);
+
   const [workTime] = useAtom(workTimeAtom);
-  const [clocks, setClocks] = useAtom(clocksAtom);
+  const [_, setClocks] = useAtom(clocksAtom);
 
   const { classes } = useStyles();
 
   const removeClock = (id: string) => {
-    setClocks(clocks.filter((clock) => clock.id !== id));
+    setClocks((clocks) => clocks.filter((clock) => clock.id !== id));
   };
 
   const onChangeHour = (value: number) => {
-    setClocks(
+    setClocks((clocks) =>
       clocks.map((c) => {
         if (c.id === clock.id) {
           return {
@@ -73,7 +67,7 @@ const ClockListItem = ({ clock }: Props) => {
   };
 
   const onChangeMinute = (value: number) => {
-    setClocks(
+    setClocks((clocks) =>
       clocks.map((c) => {
         if (c.id === clock.id) {
           return {
@@ -88,11 +82,16 @@ const ClockListItem = ({ clock }: Props) => {
 
   return (
     <Box className={classes.wrapper}>
+      <ClockListItemModal
+        opened={modalOpened}
+        onClose={() => setModalOpened(false)}
+        clockDate={clockDate}
+        onChangeHour={onChangeHour}
+        onChangeMinute={onChangeMinute}
+      />
       <Box className={classes.box}>
-        <Text weight={isDateSame(TODAY, clockDate) ? 700 : 500}>
-          {parseDatePrimary(clockDate)}
-        </Text>
-        {isDateSame(TODAY, clockDate) && (
+        <Text weight={isToday ? 700 : 500}>{parseDatePrimary(clockDate)}</Text>
+        {isToday && (
           <Text>
             +{workTime.hour}:{workTime.minute.toString().padStart(2, "0")}{" "}
             {parseDateSecondary(
@@ -101,7 +100,7 @@ const ClockListItem = ({ clock }: Props) => {
           </Text>
         )}
       </Box>
-      <Group>
+      <Group spacing="xs">
         <ActionIcon
           size="xl"
           radius="xl"
@@ -121,39 +120,6 @@ const ClockListItem = ({ clock }: Props) => {
           <IconCancel height={30} width={30} />
         </ActionIcon>
       </Group>
-      <Modal
-        opened={modalOpened}
-        onClose={() => setModalOpened(false)}
-        title={
-          <Group spacing={0}>
-            <Text weight={700} color="blue">
-              {dayjs(clockDate).locale("ko").format("M월 D일(ddd)")}
-            </Text>
-            <Text weight={500}>의 출근 시간 수정</Text>
-          </Group>
-        }
-      >
-        <Group noWrap>
-          <NumberInput
-            label="시"
-            value={dayjs(clockDate).hour()}
-            min={0}
-            max={23}
-            onChange={onChangeHour}
-            stepHoldDelay={500}
-            stepHoldInterval={100}
-          />
-          <NumberInput
-            label="분"
-            value={dayjs(clockDate).minute()}
-            min={0}
-            max={59}
-            onChange={onChangeMinute}
-            stepHoldDelay={500}
-            stepHoldInterval={100}
-          />
-        </Group>
-      </Modal>
     </Box>
   );
 };

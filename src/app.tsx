@@ -23,7 +23,7 @@ const App = () => {
       <MantineProvider
         withGlobalStyles
         withNormalizeCSS
-        theme={{ colorScheme, fontFamily: "Pretendard, 'sans-serif'" }}
+        theme={{ colorScheme }}
       >
         <Global
           styles={(theme) => ({

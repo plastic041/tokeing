@@ -4,6 +4,7 @@ import ClockListItem from "./clock-list-item";
 import { clocksAtom } from "../stores/clocks";
 import { colorSchemeAtom } from "../stores/color-scheme";
 import { useAtom } from "jotai";
+import { Fragment } from "react";
 
 const useStyles = createStyles((theme) => ({
   wrapper: {
@@ -30,10 +31,10 @@ const ClockList = () => {
       <Paper className={classes.wrapper} shadow="xs" p="md" withBorder={dark}>
         <Box className={classes.box}>
           {clocks.map((clock, index) => (
-            <>
-              <ClockListItem key={clock.id} clock={clock} />
+            <Fragment key={clock.id}>
+              <ClockListItem clock={clock} />
               {index !== clocks.length - 1 && <Divider my="xs" />}
-            </>
+            </Fragment>
           ))}
         </Box>
       </Paper>
