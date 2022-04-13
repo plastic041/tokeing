@@ -1,13 +1,39 @@
-import { ActionIcon, Box, Divider, Drawer, Group, Stack } from "@mantine/core";
+import {
+  ActionIcon,
+  Box,
+  createStyles,
+  Divider,
+  Drawer,
+  Group,
+  Stack,
+} from "@mantine/core";
 
 import DarkModeSection from "./drawer/dark-mode-section";
 import WorkTimeSection from "./drawer/work-time-section";
 import { isDrawerOpenedAtom } from "../stores/drawer";
 import { useAtom } from "jotai";
-import { GitHub as IconGitHub } from "iconoir-react";
+import LinkSection from "./drawer/link-section";
+
+const useStyles = createStyles({
+  drawer: {
+    "& > .mantine-Drawer-drawer": {
+      display: "flex",
+      flexGrow: 1,
+      flexDirection: "column",
+    },
+  },
+
+  box: {
+    display: "flex",
+    flexGrow: 1,
+    flexDirection: "column",
+    justifyContent: "space-between",
+  },
+});
 
 const DrawerWrapper = () => {
   const [opened, setOpened] = useAtom(isDrawerOpenedAtom);
+  const { classes } = useStyles();
 
   return (
     <Drawer
@@ -18,32 +44,15 @@ const DrawerWrapper = () => {
       title="설정"
       padding="md"
       size="md"
-      sx={{
-        "& > .mantine-Drawer-drawer": {
-          display: "flex",
-          flexGrow: 1,
-          flexDirection: "column",
-        },
-      }}
+      className={classes.drawer}
     >
-      <Box
-        sx={{
-          display: "flex",
-          flexGrow: 1,
-          flexDirection: "column",
-          justifyContent: "space-between",
-        }}
-      >
+      <Box className={classes.box}>
         <Stack spacing="xl">
           <Divider />
           <DarkModeSection />
           <WorkTimeSection />
         </Stack>
-        <Group position="right">
-          <ActionIcon size="lg">
-            <IconGitHub />
-          </ActionIcon>
-        </Group>
+        <LinkSection />
       </Box>
     </Drawer>
   );
