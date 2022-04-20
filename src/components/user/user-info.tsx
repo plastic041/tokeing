@@ -1,6 +1,7 @@
 import { Avatar, Button, Group, Text } from "@mantine/core";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { auth, signIn, signOut } from "~/firebase/auth";
+import CallDrawerButton from "../drawer/call-drawer-button";
 
 const UserInfo = () => {
   const [user] = useAuthState(auth);
@@ -17,9 +18,12 @@ const UserInfo = () => {
         <Avatar src={photoUrl}>{displayName.slice(0, 3)}</Avatar>
         <Text>{displayName}</Text>
       </Group>
-      <Button onClick={signOut} variant="outline">
-        로그아웃
-      </Button>
+      <Group spacing="xs">
+        <Button onClick={signOut} variant="outline">
+          로그아웃
+        </Button>
+        <CallDrawerButton />
+      </Group>
     </Group>
   );
 };

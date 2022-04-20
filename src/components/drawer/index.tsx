@@ -2,7 +2,6 @@ import { Box, Divider, Drawer, Stack, createStyles } from "@mantine/core";
 
 import DarkModeSection from "~/components/drawer/sections/dark-mode";
 import LinkSection from "~/components/drawer/sections/link";
-import UserSection from "~/components/drawer/sections/user";
 import WorkTimeSection from "~/components/drawer/sections/work-time";
 import { isDrawerOpenedAtom } from "~/stores/drawer";
 import { useAtom } from "jotai";
@@ -44,7 +43,6 @@ const DrawerWrapper = () => {
           <Divider />
           <DarkModeSection />
           <WorkTimeSection />
-          <UserSection />
         </Stack>
         <LinkSection />
       </Box>

@@ -41,13 +41,10 @@ const Body = () => {
           })}
         >
           <UserInfo />
-          <>
-            <Group spacing="xs">
-              <ClockInButton />
-              <CallDrawerButton />
-            </Group>
-            <ClockList />
-          </>
+          <Box sx={{ display: "flex" }}>
+            <ClockInButton />
+          </Box>
+          <ClockList />
         </Box>
       </Container>
     </>
