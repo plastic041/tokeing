@@ -4,8 +4,8 @@ import {
   SunLight as IconSunLight,
 } from "iconoir-react";
 
-import Section from "./section";
-import { colorSchemeAtom } from "../../stores/color-scheme";
+import Section from "~/components/drawer/sections/section";
+import { colorSchemeAtom } from "~/stores/color-scheme";
 import { useAtom } from "jotai";
 
 const DarkModeSection = () => {

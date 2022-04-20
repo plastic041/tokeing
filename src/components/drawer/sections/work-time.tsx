@@ -1,8 +1,8 @@
 import { Group, NumberInput } from "@mantine/core";
 
-import Section from "./section";
+import Section from "~/components/drawer/sections/section";
 import { useAtom } from "jotai";
-import { workTimeAtom } from "../../stores/work-time";
+import { workTimeAtom } from "~/stores/work-time";
 
 const WorkTimeSection = () => {
   const [workTime, setWorkTime] = useAtom(workTimeAtom);

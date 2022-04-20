@@ -1,1 +1,3 @@
-export const TODAY = new Date();
+import dayjs from "dayjs";
+
+export const TODAY = dayjs();

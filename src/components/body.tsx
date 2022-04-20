@@ -1,15 +1,32 @@
-import { Box, Container, Group } from "@mantine/core";
+import { Box, Center, Container, Group, Loader, Text } from "@mantine/core";
+import { auth } from "~/firebase/auth";
 
-import CallDrawerButton from "./call-drawer-button";
-import ClockInButton from "./clock-in-button";
-import ClockList from "./clock-list";
-import DrawerWrapper from "./drawer";
-import { clocksAtom } from "../stores/clocks";
-import { useAtom } from "jotai";
+import CallDrawerButton from "~/components/drawer/call-drawer-button";
+import ClockInButton from "~/components/clock-in-button";
+import ClockList from "~/components/clock-list";
+import DrawerWrapper from "~/components/drawer";
+import UserInfo from "~/components/user/user-info";
+import { useAuthState } from "react-firebase-hooks/auth";
 
 const Body = () => {
-  const [clocks] = useAtom(clocksAtom);
+  const [user, userLoading, userError] = useAuthState(auth);
 
+  if (userLoading)
+    return (
+      <Center sx={{ width: "100vw", height: "100vh" }}>
+        <Group spacing="sm">
+          <Loader />
+          <Text component="div">Loading user...</Text>
+        </Group>
+      </Center>
+    );
+
+  if (!user)
+    return (
+      <Center sx={{ width: "100vw", height: "100vh" }}>
+        <UserInfo />
+      </Center>
+    );
   return (
     <>
       <DrawerWrapper />
@@ -23,11 +40,14 @@ const Body = () => {
             height: "100%",
           })}
         >
-          <Group spacing="xs">
-            <ClockInButton />
-            <CallDrawerButton />
-          </Group>
-          {clocks.length > 0 && <ClockList />}
+          <UserInfo />
+          <>
+            <Group spacing="xs">
+              <ClockInButton />
+              <CallDrawerButton />
+            </Group>
+            <ClockList />
+          </>
         </Box>
       </Container>
     </>

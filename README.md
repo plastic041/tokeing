@@ -1,9 +1,15 @@
 # Tokeing
 
-너무너무 간단한 출근시각 기록 도구
+간단한 출근시각 기록 도구
 
-- store2
+- firebase
+
+  - [react-firebase-hook](https://github.com/CSFrequency/react-firebase-hooks)
 
 - react 18
 
-- vite
+- [vite](https://vitejs.dev/)
+
+- [jotai](https://jotai.org/)
+
+- [mantine](https://mantine.dev/)
