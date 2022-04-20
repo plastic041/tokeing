@@ -1,6 +1,5 @@
 import { createRoot } from "react-dom/client";
 import App from "~/app";
-import "animate.css";
 
 const rootElement = document.querySelector("#root");
 

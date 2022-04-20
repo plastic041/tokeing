@@ -11,4 +11,11 @@ export default defineConfig({
       "~": resolve(__dirname, "src"),
     },
   },
+  build: {
+    terserOptions: {
+      format: {
+        comments: false,
+      },
+    },
+  },
 });
