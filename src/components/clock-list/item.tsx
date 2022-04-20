@@ -1,4 +1,11 @@
-import { ActionIcon, Box, Group, Text, createStyles } from "@mantine/core";
+import {
+  ActionIcon,
+  Box,
+  Group,
+  Text,
+  createStyles,
+  keyframes,
+} from "@mantine/core";
 import {
   Cancel as IconCancel,
   EditPencil as IconEditPencil,
@@ -13,12 +20,24 @@ import { useAtom } from "jotai";
 import { useState } from "react";
 import { workTimeAtom } from "~/stores/work-time";
 
+const fadeInDown = keyframes({
+  from: {
+    opacity: 0,
+    transform: "translate3d(0, -100%, 0)",
+  },
+  to: {
+    opacity: 1,
+    transform: "translate3d(0, 0, 0)",
+  },
+});
+
 const useStyles = createStyles(() => ({
   wrapper: {
     display: "flex",
     flexDirection: "row",
     justifyContent: "space-between",
     alignItems: "center",
+    animation: `${fadeInDown} 0.2s ease-in-out`,
   },
   box: {
     display: "flex",
