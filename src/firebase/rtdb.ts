@@ -1,6 +1,6 @@
 import { getDatabase, ref, set } from "firebase/database";
-import { app } from "../firestore";
-import { Clock } from "../typings/clock";
+import { app } from "~/firestore";
+import { Clock } from "~/typings/clock";
 
 export const db = getDatabase(app);
 

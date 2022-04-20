@@ -5,8 +5,8 @@ import {
   Global,
 } from "@mantine/core";
 import { useAtom } from "jotai";
-import Body from "./components/body";
-import { colorSchemeAtom } from "./stores/color-scheme";
+import Body from "~/components/body";
+import { colorSchemeAtom } from "~/stores/color-scheme";
 
 const App = () => {
   const [colorScheme, setColorScheme] = useAtom(colorSchemeAtom);
