@@ -1,4 +1,5 @@
 import { Avatar, Button, Group, Text } from "@mantine/core";
+import { Google as IconGoogle } from "iconoir-react";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { auth, signIn, signOut } from "~/firebase/auth";
 import CallDrawerButton from "../drawer/call-drawer-button";
@@ -7,7 +8,14 @@ const UserInfo = () => {
   const [user] = useAuthState(auth);
 
   if (!user) {
-    return <Button onClick={signIn}>로그인</Button>;
+    return (
+      <Button onClick={signIn} size="lg">
+        <Group spacing="xs">
+          <IconGoogle />
+          <Text>로그인</Text>
+        </Group>
+      </Button>
+    );
   }
 
   const displayName = user.displayName || user.email || "";
