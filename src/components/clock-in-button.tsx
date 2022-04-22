@@ -12,7 +12,7 @@ import { useListVals } from "react-firebase-hooks/database";
 
 const ClockInButton = () => {
   const [user] = useAuthState(auth);
-  const [clocks] = useListVals<Clock>(
+  const [clocks, clocksLoading] = useListVals<Clock>(
     ref(db, user ? `users/${user.uid}/` : undefined)
   );
 
@@ -26,8 +26,13 @@ const ClockInButton = () => {
   };
 
   return (
-    <Button onClick={onClick} sx={() => ({ flexGrow: 1 })} size="lg">
-      출근
+    <Button
+      onClick={onClick}
+      sx={() => ({ flexGrow: 1 })}
+      size="lg"
+      disabled={clocksLoading}
+    >
+      {clocksLoading ? "데이터 불러오는 중..." : "출근"}
     </Button>
   );
 };
