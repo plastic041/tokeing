@@ -65,16 +65,22 @@ const ClockList = () => {
           </Center>
         ) : (
           <Box className={classes.box}>
-            {clocks.map((clock, index) => (
-              <Fragment key={clock.id}>
-                <ClockListItem
-                  clock={clock}
-                  userId={(user as User).uid}
-                  onRemove={onRemove}
-                />
-                {index !== clocks.length - 1 && <Divider my="xs" />}
-              </Fragment>
-            ))}
+            {clocks
+              .sort((a, b) => {
+                if (a.date > b.date) return -1;
+                if (a.date < b.date) return 1;
+                return 0;
+              })
+              .map((clock, index) => (
+                <Fragment key={clock.id}>
+                  <ClockListItem
+                    clock={clock}
+                    userId={(user as User).uid}
+                    onRemove={onRemove}
+                  />
+                  {index !== clocks.length - 1 && <Divider my="xs" />}
+                </Fragment>
+              ))}
           </Box>
         )}
       </Paper>
